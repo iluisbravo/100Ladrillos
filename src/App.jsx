@@ -1,9 +1,15 @@
 import './App.css'
+import { NavBar } from './components/NavBar/NavBar'
+import { ThemeProvider } from './contexts/ThemeContext'
+import { SignUp } from './pages/SignUp/SignUp'
 
 function App() {
   return (
     <>
-      <h1>100 Ladrillos App</h1>
+      <ThemeProvider>
+        <NavBar />
+        <SignUp />
+      </ThemeProvider>
     </>
   )
 }
