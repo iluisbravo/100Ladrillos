@@ -1,18 +1,38 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { LabelForm } from '../Text/LabelForm';
 import { FormTitleH3 } from '../Text/FormTitleH3';
 import { Button } from '../Button/Button';
+import { useAuth } from '../../contexts/AuthContext';
 
 export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
-    // Lógica de validación para el paso 3
+    const { formData, setFormData } = useAuth();
+
+    useEffect(() => {
+        validateStep();
+    }, [
+        formData.primerNombre,
+        formData.segundoNombre,
+        formData.primerApellido,
+        formData.segundoApellido
+    ]);
+
+    const validateStep = () => {
+        if (formData.primerNombre && formData.primerApellido) {
+            setFormData((formData) => {
+                return {
+                    ...formData,
+                    isValidStep3: true
+                }
+            });
+        }
+    }
 
     const handlePrevStep = () => {
         onPrevStep();
     };
 
     const handleNextStep = () => {
-        // Realizar validaciones específicas del paso 3
-        const isValid = true; // Cambia esto con tu lógica de validación real
+        const isValid = true;
 
         if (isValid) {
             onNextStep();
@@ -21,7 +41,6 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
 
     return (
         <div>
-            {/* Renderiza el contenido del paso 3 */}
             <div className="mb-3">
                 <FormTitleH3>¿Cómo te llamas?</FormTitleH3>
             </div>
@@ -32,7 +51,15 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
                     name='primerNombre'
                     className="form-control"
                     placeholder='Primer nombre'
-                    aria-describedby="emailHelp"
+                    aria-describedby="primerNombeHelp"
+                    value={formData.primerNombre}
+                    onInput={(event) => setFormData((formData) => {
+                        return {
+                            ...formData,
+                            [event.target.name]: event.target.value
+                        }
+                    })}
+
                 />
             </div>
             <div className="mb-4">
@@ -42,7 +69,14 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
                     name='segundoNombre'
                     className="form-control"
                     placeholder='Segundo nombre'
-                    aria-describedby="emailHelp"
+                    aria-describedby="segundoNombreHelp"
+                    value={formData.segundoNombre}
+                    onInput={(event) => setFormData((formData) => {
+                        return {
+                            ...formData,
+                            [event.target.name]: event.target.value
+                        }
+                    })}
                 />
             </div>
             <div className="mb-4">
@@ -53,6 +87,13 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
                     className="form-control"
                     placeholder='Primer apellido'
                     aria-describedby="emailHelp"
+                    value={formData.primerApellido}
+                    onInput={(event) => setFormData((formData) => {
+                        return {
+                            ...formData,
+                            [event.target.name]: event.target.value
+                        }
+                    })}
                 />
             </div>
             <div className="mb-4">
@@ -63,6 +104,13 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
                     className="form-control"
                     placeholder='Segundo apellido'
                     aria-describedby="emailHelp"
+                    value={formData.segundoApellido}
+                    onInput={(event) => setFormData((formData) => {
+                        return {
+                            ...formData,
+                            [event.target.name]: event.target.value
+                        }
+                    })}
                 />
             </div>
 
@@ -77,7 +125,7 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
             <Button
                 typeButton={"primary"}
                 onClick={handleNextStep}
-            // disabled={!form.isValidStep && !form.emailValid}
+                disabled={!formData.isValidStep3}
             >
                 Siguiente
             </Button>

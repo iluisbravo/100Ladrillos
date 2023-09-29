@@ -8,23 +8,17 @@ import { StyledRowList } from '../PasswordChecker/StyledRowList';
 import { CaptionForm } from '../Text/CaptionForm';
 import { Button } from '../Button/Button';
 import { PasswordValidations } from '../PasswordChecker/PasswordValidations';
+import { useAuth } from '../../contexts/AuthContext';
 
 export const SignUpFormStep1 = ({ onNextStep }) => {
-    // Lógica de validación para el paso 1
-    const [form, setForm] = useState({
-        email: "",
-        emailValid: false,
-        password: "",
-        passwordConfirmed: "",
-        isValidStep: false
-    });
+    const { formData, setFormData } = useAuth();
 
     useEffect(() => {
 
     }, []);
 
     const emailValidation = () => {
-        const emailValid = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/.test(form.email);
+        const emailValid = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/.test(formData.email);
         return emailValid;
     }
 
@@ -38,20 +32,16 @@ export const SignUpFormStep1 = ({ onNextStep }) => {
     };
 
     const renderValidations = () => {
-        if (form.email.length === 0 && form.password.length === 0) {
+        if (formData.email.length === 0 && formData.password.length === 0) {
             return <SocialMediaContainer />
         }
         else {
-            return <PasswordValidations
-                password={form.password}
-                onValidationComplete={(isValid) => setForm({ ...form, isValidStep: isValid })}
-            />
+            return <PasswordValidations />
         }
     }
 
     return (
         <div>
-            {/* Renderiza el contenido del paso 1 */}
             <div className="mb-3">
                 <FormTitleH3>Crear tu cuenta</FormTitleH3>
             </div>
@@ -68,11 +58,11 @@ export const SignUpFormStep1 = ({ onNextStep }) => {
                 <input
                     type="email"
                     name='email'
-                    value={form.email}
                     className="form-control"
                     placeholder='tu@correo.com'
                     aria-describedby="emailHelp"
-                    onChange={(event) => { setForm({ ...form, [event.target.name]: event.target.value }) }}
+                    value={formData.email}
+                    onChange={(event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) }}
                 />
                 <div className="form-text red">
                     {
@@ -88,8 +78,9 @@ export const SignUpFormStep1 = ({ onNextStep }) => {
                     name="password"
                     className="form-control"
                     placeholder='Contraseña'
-                    aria-describedby="emailHelp"
-                    onChange={(event) => { setForm({ ...form, [event.target.name]: event.target.value }) }}
+                    aria-describedby="passwordHelp"
+                    value={formData.password}
+                    onChange={(event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) }}
                 />
             </div>
 
@@ -99,9 +90,9 @@ export const SignUpFormStep1 = ({ onNextStep }) => {
             <Button
                 typeButton={"primary"}
                 onClick={handleNextStep}
-                // disabled={!form.isValidStep || !emailValidation()}
+                // disabled={!formData.isValidStep1 || !emailValidation()}
             > Siguiente</Button>
-            {JSON.stringify(form)}
+            {console.log(formData)}
         </div>
     );
 }

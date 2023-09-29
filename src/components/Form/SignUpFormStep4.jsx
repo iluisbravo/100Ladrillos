@@ -3,17 +3,18 @@ import { FormTitleH3 } from '../Text/FormTitleH3';
 import { CaptionForm } from '../Text/CaptionForm';
 import { FormTitleH2 } from '../Text/FormTitleH2';
 import { Button } from '../Button/Button';
+import { useAuth } from '../../contexts/AuthContext';
 
 export const SignUpFormStep4 = ({ onPrevStep, onNextStep }) => {
-    // Lógica de validación para el paso 4
+    const { formData, setFormData } = useAuth();
+
 
     const handlePrevStep = () => {
         onPrevStep();
     };
 
     const handleNextStep = () => {
-        // Realizar validaciones específicas del paso 4
-        const isValid = true; // Cambia esto con tu lógica de validación real
+        const isValid = true;
 
         if (isValid) {
             onNextStep();
@@ -22,7 +23,6 @@ export const SignUpFormStep4 = ({ onPrevStep, onNextStep }) => {
 
     return (
         <div>
-            {/* Renderiza el contenido del paso 4 */}
             <div className="mb-3">
                 <FormTitleH3>Haz creado una cuenta</FormTitleH3>
             </div>
@@ -32,9 +32,13 @@ export const SignUpFormStep4 = ({ onPrevStep, onNextStep }) => {
             </div>
 
             <div className="mb-4">
-                <FormTitleH2>Lucile Salazar Quincero</FormTitleH2>
-                <CaptionForm>tu@correo.com</CaptionForm>
-                <CaptionForm>33 1111 1111</CaptionForm>
+                <FormTitleH2>{`${formData.primerNombre} 
+                    ${formData.segundoNombre} 
+                    ${formData.primerApellido}
+                    ${formData.segundoApellido}
+                    `}</FormTitleH2>
+                <CaptionForm>{formData.email}</CaptionForm>
+                <CaptionForm>{formData.phone}</CaptionForm>
             </div>
 
             <Button
@@ -47,7 +51,7 @@ export const SignUpFormStep4 = ({ onPrevStep, onNextStep }) => {
 
             <Button
                 typeButton={"primary"}
-                // onClick={handleNextStep}
+            // onClick={handleNextStep}
             // disabled={!form.isValidStep && !form.emailValid}
             >
                 Finalizar

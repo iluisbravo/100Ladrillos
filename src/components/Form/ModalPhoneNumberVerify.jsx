@@ -7,6 +7,7 @@ import { FormTitleH3 } from '../Text/FormTitleH3';
 import { CaptionForm } from '../Text/CaptionForm';
 import { Button } from '../Button/Button';
 import phoneImg from '../../assets/images/phone.svg'
+import { useAuth } from '../../contexts/AuthContext';
 
 const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
@@ -63,8 +64,10 @@ const ContainerCode = styled.div`
 
 `
 
-export const ModalPhoneNumberVerify = ({ open, phoneNumber }) => {
-    const [isOpen, setIsOpen] = useState(false);
+export const ModalPhoneNumberVerify = ({ isOpen, openModal, closeModal }) => {
+    // const [isOpen, setIsOpen] = useState(false);
+    const { formData, setFormData } = useAuth();
+
     const [digits, setDigits] = useState({
         digit1: '',
         digit2: '',
@@ -72,14 +75,6 @@ export const ModalPhoneNumberVerify = ({ open, phoneNumber }) => {
         digit4: '',
     });
     const theme = useTheme();
-
-    const openModal = () => {
-        setIsOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsOpen(false);
-    };
 
     const handleChange = (event) => {
         setDigits((digits) => {
@@ -102,11 +97,20 @@ export const ModalPhoneNumberVerify = ({ open, phoneNumber }) => {
         }
     };
 
+    const validatePhone = () => {
+        setFormData((formData) => {
+            return {
+                ...formData,
+                phoneVerified: true
+            }
+        });
+
+        closeModal();
+    }
+
 
     return (
         <div>
-            <button onClick={openModal}>Abrir Modal</button>
-
             {isOpen && (
                 <ModalOverlay>
                     <ModalContainer theme={theme}>
@@ -123,7 +127,7 @@ export const ModalPhoneNumberVerify = ({ open, phoneNumber }) => {
 
                             <div className='mb-3'>
                                 <TextForm>Hemos enviado un código único de 6 digítos a tú teléfono celular</TextForm>
-                                <FormTitleH3>{phoneNumber || "11 1111 1111"}</FormTitleH3>
+                                <FormTitleH3>{formData.phone || "11 1111 1111"}</FormTitleH3>
                             </div>
 
                             <div className='mb-5'>
@@ -172,8 +176,22 @@ export const ModalPhoneNumberVerify = ({ open, phoneNumber }) => {
                             </div>
 
                             <div className='mb-1'>
-                                <Button typeButton={'secondary'}> Cancelar</Button>
-                                <Button typeButton={'primary'}>Validar código</Button>
+                                <Button
+                                    typeButton={'secondary'}
+                                    onClick={closeModal}
+                                > Cancelar</Button>
+                                <Button
+                                    typeButton={'primary'}
+                                    onClick={validatePhone}
+                                    disabled={
+                                        (digits.digit1.trim() == "" ||
+                                            digits.digit2.trim() == "" ||
+                                            digits.digit3.trim() == "" ||
+                                            digits.digit4.trim() == "")
+                                            ? true
+                                            : false
+                                    }
+                                >Validar código</Button>
                             </div>
 
 

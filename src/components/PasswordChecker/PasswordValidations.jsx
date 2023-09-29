@@ -2,24 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { CaptionForm } from '../Text/CaptionForm';
 import { StyledRowList } from './StyledRowList';
 import { LabelForm } from '../Text/LabelForm';
+import { useAuth } from '../../contexts/AuthContext';
 
-export const PasswordValidations = ({ password, onValidationComplete }) => {
+export const PasswordValidations = () => {
     const [isValid, setIsValid] = useState(false);
+    const { formData, setFormData } = useAuth();
+
     const [passwordConfirmed, setPasswordConfirmed] = useState("");
 
     useEffect(() => {
-        validatePassword(password);
-        console.log(password, passwordConfirmed)
-    }, [password, passwordConfirmed]);
+        validatePassword();
+        console.log(formData.password, formData.passwordConfirmed)
+    }, [formData.password, formData.passwordConfirmed]);
 
-    const minLength = password.length >= 6;
-    const hasNumber = /\d/.test(password);
-    const hasSpecialChar = /[!\\“#$%&/()=?¿^*@‚[\]\\{};:_><,.\-|`+]/.test(password);
-    const doesNotContainPhrase = !password.includes('100Ladrillos');
-    const doesNotHaveConsecutiveChars = !/(.)\1{3,}/.test(password);
-    const doesNotHaveSequentialChars = !/(123|234|345|456|567|678|789|012)/.test(password);
+    const minLength = formData.password.length >= 6;
+    const hasNumber = /\d/.test(formData.password);
+    const hasSpecialChar = /[!\\“#$%&/()=?¿^*@‚[\]\\{};:_><,.\-|`+]/.test(formData.password);
+    const doesNotContainPhrase = !formData.password.includes('100Ladrillos');
+    const doesNotHaveConsecutiveChars = !/(.)\1{3,}/.test(formData.password);
+    const doesNotHaveSequentialChars = !/(123|234|345|456|567|678|789|012)/.test(formData.password);
 
-    const validatePassword = (password) => {
+    const validatePassword = () => {
         const isValidPassword =
             minLength &&
             hasNumber &&
@@ -27,13 +30,14 @@ export const PasswordValidations = ({ password, onValidationComplete }) => {
             doesNotContainPhrase &&
             doesNotHaveConsecutiveChars &&
             doesNotHaveSequentialChars &&
-            passwordConfirmed === password;
+            formData.passwordConfirmed === formData.password;
 
-        setIsValid(isValidPassword);
-
-        if (onValidationComplete) {
-            onValidationComplete(isValidPassword);
-        }
+        setFormData((formData) => {
+            return {
+                ...formData,
+                isValidStep1: isValidPassword
+            }
+        })
     };
 
     return (
@@ -55,7 +59,13 @@ export const PasswordValidations = ({ password, onValidationComplete }) => {
                     className="form-control"
                     placeholder='Contraseña'
                     aria-describedby="emailHelp"
-                    onChange={(event) => setPasswordConfirmed(event.target.value)}
+                    value={formData.passwordConfirmed}
+                    onChange={(event) => setFormData((formData) => {
+                        return {
+                            ...formData,
+                            passwordConfirmed: event.target.value
+                        }
+                    })}
                 />
             </div>
         </div>
