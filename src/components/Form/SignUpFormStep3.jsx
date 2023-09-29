@@ -20,14 +20,16 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
     ]);
 
     const validateStep = () => {
+        let isValidStep = false;
         if (formData.primerNombre && formData.primerApellido) {
-            setFormData((formData) => {
-                return {
-                    ...formData,
-                    isValidStep3: true
-                }
-            });
+            isValidStep = true;
         }
+        setFormData((formData) => {
+            return {
+                ...formData,
+                isValidStep3: isValidStep
+            }
+        });
     }
 
     const handlePrevStep = () => {
@@ -45,7 +47,7 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
         }
 
         const inputValue = event.key;
-        const regex = /^[a-zA-Z]+$/;
+        const regex = /^[A-Za-zÀ-ÿ\s]+$/;
 
         if (!regex.test(inputValue)) {
             event.preventDefault();
@@ -61,7 +63,6 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
             formData.segundoApellido,
             formData.token)
             .then((response) => {
-                console.log(response, "Registering names");
                 if (response.status === 200) {
                     setFormData((formData) => {
                         return {
@@ -69,6 +70,7 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
                             idClient: response.data.clientNumber
                         }
                     });
+                    localStorage.setItem("authToken", formData.token);
                     setError(undefined);
                     handleNextStep();
                 }

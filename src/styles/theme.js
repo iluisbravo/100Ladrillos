@@ -6,7 +6,6 @@ export const colors = {
     white: "#ffffff",
     link: "#3ca4fc",
     gray: "#eaeaea"
-    // Agrega más colores según tus necesidades
 };
 
 export const fontsSize = {

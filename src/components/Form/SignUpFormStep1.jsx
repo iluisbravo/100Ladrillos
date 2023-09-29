@@ -4,8 +4,6 @@ import { TextForm } from '../Text/TextForm';
 import { LinkForm } from '../Text/LinkForm';
 import { LabelForm } from '../Text/LabelForm';
 import { SocialMediaContainer } from '../SocialMediaContainer/SocialMediaContainer';
-import { StyledRowList } from '../PasswordChecker/StyledRowList';
-import { CaptionForm } from '../Text/CaptionForm';
 import { Button } from '../Button/Button';
 import { PasswordValidations } from '../PasswordChecker/PasswordValidations';
 import { useAuth } from '../../contexts/AuthContext';
@@ -28,7 +26,6 @@ export const SignUpFormStep1 = ({ onNextStep }) => {
     const handleSignUp = () => {
         createSignUp(formData.email, formData.password)
             .then((response) => {
-                console.log(response, "creating sign up");
                 if (response.status === 201) {
                     setError(undefined);
                     setFormData((formData) => {

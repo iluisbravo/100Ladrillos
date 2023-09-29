@@ -77,12 +77,10 @@ export const SignUpFormStep2 = ({ onPrevStep, onNextStep }) => {
     const handleRegisterPhone = () => {
         registerPhoneNumber(formData.phone, formData.token)
             .then((response) => {
-                console.log(response, "registering phone");
                 if (response.status === 200) {
                     setError(undefined);
                     openModal();
                 }
-
             })
             .catch((error) => {
                 console.log(error.response.request.status);

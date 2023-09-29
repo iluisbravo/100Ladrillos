@@ -18,7 +18,8 @@ const getHoverType = (typeButton, theme) => {
     return typeButton === "primary" || typeButton === "secondary" ? theme.colors.gray : "";
 }
 
-const ButtonStyle = styled.button`
+
+const StyledButton = styled.button`
   color: ${({ typeButton, theme }) => getColorType(typeButton, theme)};
   padding: 10px 20px;
   margin-right: 16px;
@@ -26,6 +27,10 @@ const ButtonStyle = styled.button`
   cursor: pointer;
   background-color: ${({ typeButton, theme }) => getBackgroundColorType(typeButton, theme)};
   border-radius: 4px;
+
+  &:hover{
+    opacity: 0.8;
+  }
 
   &:disabled{
     background-color: ${({ typeButton, theme }) => theme.colors.gray};
@@ -38,7 +43,7 @@ export const Button = ({ onClick, typeButton, type, disabled, children }) => {
     const theme = useTheme();
 
     return (
-        <ButtonStyle
+        <StyledButton
             typeButton={typeButton}
             onClick={onClick}
             theme={theme}
@@ -46,6 +51,6 @@ export const Button = ({ onClick, typeButton, type, disabled, children }) => {
             disabled={disabled}
         >
             {children}
-        </ButtonStyle>
+        </StyledButton>
     )
 }

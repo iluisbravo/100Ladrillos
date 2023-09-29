@@ -5,6 +5,8 @@ import { FormTitleH2 } from '../Text/FormTitleH2';
 import { Button } from '../Button/Button';
 import { useAuth } from '../../contexts/AuthContext';
 import imageDone from '../../assets/images/done.svg';
+import { LinkButton } from '../Button/LinkButton';
+import { Link } from 'react-router-dom';
 
 export const SignUpFormStep4 = ({ onPrevStep, onNextStep }) => {
     const { formData, setFormData } = useAuth();
@@ -46,18 +48,14 @@ export const SignUpFormStep4 = ({ onPrevStep, onNextStep }) => {
                 <CaptionForm>{formData.phone}</CaptionForm>
             </div>
 
-            <Button
-                typeButton={"secondary"}
-                onClick={handlePrevStep}
-            >
-                Anterior
-            </Button>
-
-            <Button
+            <LinkButton
                 typeButton={"primary"}
+                bold={true}
             >
-                Iniciar sesión
-            </Button>
+                <Link className="nav-link" to="/">
+                    Iniciar sesión
+                </Link>
+            </LinkButton>
         </div>
     );
 }

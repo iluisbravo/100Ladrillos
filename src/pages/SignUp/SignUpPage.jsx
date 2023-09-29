@@ -5,10 +5,9 @@ import styled from 'styled-components';
 import { SignUpForm } from '../../components/Form/SignUpForm';
 
 const DivImage = styled.img`
-width: 100%;
-height: 100%;
-// margin: 72px 263px 0 0;
-object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `;
 
 export const SignUpPage = () => {

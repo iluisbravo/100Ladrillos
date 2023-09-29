@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://frontend-recruiting.100ladrillos.com/api/', // Reemplaza con la URL de tu API.
+    baseURL: 'http://frontend-recruiting.100ladrillos.com/api/',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -49,9 +49,6 @@ export const registerUserName = (name, secondName, firstLastName, secondLastName
 
 export const getUserInformation = (token) => {
     return api.get('/profile',
-        {
-            token
-        },
         {
             headers: {
                 Authorization: `Bearer ${token}`

@@ -12,7 +12,6 @@ export const PasswordValidations = () => {
 
     useEffect(() => {
         validatePassword();
-        console.log(formData.password, formData.passwordConfirmed)
     }, [formData.password, formData.passwordConfirmed]);
 
     const minLength = formData.password.length >= 6;

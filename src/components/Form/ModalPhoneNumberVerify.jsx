@@ -112,7 +112,6 @@ export const ModalPhoneNumberVerify = ({ isOpen, openModal, closeModal }) => {
     const handlePhoneVerify = () => {
         verifyPhoneNumber(`${digits.digit1}${digits.digit2}${digits.digit3}${digits.digit4}`, formData.token)
             .then((response) => {
-                console.log(response, "Verifing phone");
                 if (response.status === 200) {
                     setFormData((formData) => {
                         return {
