@@ -12,7 +12,7 @@
 Antes de comenzar, asegúrate de tener [Node.js](https://nodejs.org/) instalado en tu sistema.
 
 1. **Clonar el repositorio:**
-git clone https://github.com/tu-usuario/100ladrillos.git
+git clone https://github.com/iluisbravo/100Ladrillos.git
 
 2. **Navegar a la carpeta del proyecto:**
 cd 100ladrillos
