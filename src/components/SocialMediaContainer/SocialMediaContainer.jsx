@@ -18,9 +18,9 @@ export const SocialMediaContainer = () => {
             <div className="mb-2">
                 <div className='container-fluid'>
                     <div className='row'>
-                        <div className='col-md-3 p-0'><hr /></div>
-                        <div className='col-md-6'><p> o régistrate con: </p></div>
-                        <div className='col-md-3 p-0'><hr /></div>
+                        <div className='col-3 p-0'><hr /></div>
+                        <div className='col-6'><p> o régistrate con: </p></div>
+                        <div className='col-3 p-0'><hr /></div>
                     </div>
                 </div>
             </div>

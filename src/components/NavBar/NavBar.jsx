@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../contexts/ThemeContext';
+import { Link } from 'react-router-dom';
 import logo100Ladrillos from '../../assets/images/Logo100Ladrillos.svg';
 import whiteLogoImage from '../../assets/images/WhiteLogo.svg';
 
@@ -35,9 +36,12 @@ export const NavBar = () => {
     <StyledNavbar theme={theme}>
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <a className="navbar-brand ms-3" href="/">
+          {/* <a className="navbar-brand ms-3" href="/">
             <img src={logo100Ladrillos} alt="Logo" />
-          </a>
+          </a> */}
+          <Link className="navbar-brand ms-3" to="/">
+            <img src={logo100Ladrillos} alt="Logo" />
+          </Link>
 
           <button
             className="navbar-toggler"
@@ -50,16 +54,17 @@ export const NavBar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <a className="navbar-brand-center" href="/">
+          <Link className="navbar-brand-center" to="/">
             <img src={whiteLogoImage} alt="WhiteLogo" />
-          </a>
+          </Link>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="/#">Cómo funciona</a>
+                <Link className="nav-link" to="/">Cómo funciona</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/#">Entrar</a>
+                <Link className="nav-link" to="/SignUp">Entrar</Link>
+
               </li>
             </ul>
           </div>

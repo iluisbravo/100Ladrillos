@@ -1,18 +1,18 @@
 import './App.css'
 import { NavBar } from './components/NavBar/NavBar'
-import { ThemeProvider } from './contexts/ThemeContext'
-import { AuthProvider } from './contexts/AuthContext';
-import { SignUp } from './pages/SignUp/SignUp'
+import { SignUpPage } from './pages/SignUp/SignUpPage'
+import { Routes, Route } from 'react-router-dom';
+import routes from './routes/routes';
 
 function App() {
   return (
     <>
-      <AuthProvider>
-        <ThemeProvider>
-          <NavBar />
-          <SignUp />
-        </ThemeProvider>
-      </AuthProvider>
+      <NavBar />
+      <Routes>
+        {routes.map((route, index) => (
+          <Route key={index} path={route.path} element={route.element} />
+        ))}
+      </Routes>
     </>
   )
 }

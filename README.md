@@ -24,7 +24,7 @@ npm install
 Para ejecutar la aplicación en un entorno de desarrollo, utiliza el siguiente comando:
 npm run dev
 
-Esto iniciará un servidor de desarrollo y podrás acceder a la aplicación en http://localhost:3000.
+Esto iniciará un servidor de desarrollo y podrás acceder a la aplicación en http://localhost:5173.
 
 Para construir la aplicación para producción, utiliza:
 npm run build

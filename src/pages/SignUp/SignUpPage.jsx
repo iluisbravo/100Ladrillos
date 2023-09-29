@@ -11,7 +11,7 @@ height: 100%;
 object-fit: contain;
 `;
 
-export const SignUp = () => {
+export const SignUpPage = () => {
   return (
     <>
       <div className="container-fluid">
