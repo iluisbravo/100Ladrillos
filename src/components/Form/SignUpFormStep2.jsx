@@ -4,10 +4,13 @@ import { Button } from '../Button/Button';
 import { ModalPhoneNumberVerify } from './ModalPhoneNumberVerify';
 import { useAuth } from '../../contexts/AuthContext';
 import { render } from 'react-dom';
+import { registerPhoneNumber } from '../../services/SignUpServices';
+import errorMessages from '../../utils/errorMessages';
 
 export const SignUpFormStep2 = ({ onPrevStep, onNextStep }) => {
     const { formData, setFormData } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
+    const [error, setError] = useState();
 
     useEffect(() => {
         phoneValidation();
@@ -18,10 +21,7 @@ export const SignUpFormStep2 = ({ onPrevStep, onNextStep }) => {
     };
 
     const handleNextStep = () => {
-        const isValid = true;
-        if (isValid) {
-            onNextStep();
-        }
+        onNextStep();
     };
 
     const openModal = () => {
@@ -43,6 +43,16 @@ export const SignUpFormStep2 = ({ onPrevStep, onNextStep }) => {
         });
     }
 
+    const onlyNumbers = (e) => {
+        if (e.keyCode === 8 || e.keyCode === 9) {
+            return;
+        }
+
+        if (e.key && !/^\d$/.test(e.key)) {
+            e.preventDefault();
+        }
+    };
+
     const renderButtonValidate = () => {
         if (formData.phoneVerified) {
             return <Button
@@ -55,7 +65,7 @@ export const SignUpFormStep2 = ({ onPrevStep, onNextStep }) => {
         else {
             return <Button
                 typeButton={"primary"}
-                onClick={openModal}
+                onClick={handleRegisterPhone}
                 disabled={!formData.isValidStep2}
             >
                 Verificar
@@ -63,6 +73,22 @@ export const SignUpFormStep2 = ({ onPrevStep, onNextStep }) => {
 
         }
     }
+
+    const handleRegisterPhone = () => {
+        registerPhoneNumber(formData.phone, formData.token)
+            .then((response) => {
+                console.log(response, "registering phone");
+                if (response.status === 200) {
+                    setError(undefined);
+                    openModal();
+                }
+
+            })
+            .catch((error) => {
+                console.log(error.response.request.status);
+                setError(error.response.request.status);
+            });
+    };
 
     return (<>
         <ModalPhoneNumberVerify
@@ -90,25 +116,25 @@ export const SignUpFormStep2 = ({ onPrevStep, onNextStep }) => {
                         }
                     })}
                     maxLength={10}
+                    onKeyDown={onlyNumbers}
                 />
                 <div className="form-text error">
                     {
                         formData.isValidStep2 ? undefined : "Ingresa un teléfono válido."
                     }
                 </div>
+                <div className="invalid-feedback" style={{ display: 'block' }}>
+                    {error ? errorMessages[error] : undefined}
+                </div>
             </div>
 
             <Button
                 typeButton={"secondary"}
                 onClick={handlePrevStep}
-            // disabled={!form.isValidStep && !form.emailValid}
             >
                 Anterior
             </Button>
-
             {renderButtonValidate()}
-
-
         </div>
     </>
     );

@@ -9,9 +9,12 @@ import { CaptionForm } from '../Text/CaptionForm';
 import { Button } from '../Button/Button';
 import { PasswordValidations } from '../PasswordChecker/PasswordValidations';
 import { useAuth } from '../../contexts/AuthContext';
+import { createSignUp } from '../../services/SignUpServices';
+import errorMessages from '../../utils/errorMessages';
 
 export const SignUpFormStep1 = ({ onNextStep }) => {
     const { formData, setFormData } = useAuth();
+    const [error, setError] = useState();
 
     useEffect(() => {
 
@@ -22,13 +25,30 @@ export const SignUpFormStep1 = ({ onNextStep }) => {
         return emailValid;
     }
 
-    const handleNextStep = () => {
-        // Realizar validaciones específicas del paso 1
-        const isValid = true; // Cambia esto con tu lógica de validación real
+    const handleSignUp = () => {
+        createSignUp(formData.email, formData.password)
+            .then((response) => {
+                console.log(response, "creating sign up");
+                if (response.status === 201) {
+                    setError(undefined);
+                    setFormData((formData) => {
+                        return {
+                            ...formData,
+                            token: response.data.token
+                        }
+                    });
+                    handleNextStep();
+                }
 
-        if (isValid) {
-            onNextStep();
-        }
+            })
+            .catch((error) => {
+                console.log(error.response.request.status);
+                setError(error.response.request.status);
+            });
+    };
+
+    const handleNextStep = () => {
+        onNextStep();
     };
 
     const renderValidations = () => {
@@ -69,6 +89,9 @@ export const SignUpFormStep1 = ({ onNextStep }) => {
                         emailValidation() ? undefined : "Ingresa un correo válido."
                     }
                 </div>
+                <div className="invalid-feedback" style={{ display: 'block' }}>
+                    {error == 409 ? errorMessages[error] : undefined}
+                </div>
             </div>
 
             <div className="mb-4">
@@ -82,17 +105,20 @@ export const SignUpFormStep1 = ({ onNextStep }) => {
                     value={formData.password}
                     onChange={(event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) }}
                 />
+                <div className="invalid-feedback" style={{ display: 'block' }}>
+                    {error == 400 ? errorMessages[error] : undefined}
+                </div>
             </div>
 
             <div className="mb-4">
                 {renderValidations()}
             </div>
+
             <Button
                 typeButton={"primary"}
-                onClick={handleNextStep}
-                // disabled={!formData.isValidStep1 || !emailValidation()}
+                onClick={handleSignUp}
+                disabled={!formData.isValidStep1 || !emailValidation()}
             > Siguiente</Button>
-            {console.log(formData)}
         </div>
     );
 }

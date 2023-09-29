@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../contexts/ThemeContext';
 import logo100Ladrillos from '../../assets/images/Logo100Ladrillos.svg';
+import whiteLogoImage from '../../assets/images/WhiteLogo.svg';
 
 const StyledNavbar = styled.div`
   a.nav-link {
@@ -37,6 +38,7 @@ export const NavBar = () => {
           <a className="navbar-brand ms-3" href="/">
             <img src={logo100Ladrillos} alt="Logo" />
           </a>
+
           <button
             className="navbar-toggler"
             type="button"
@@ -48,13 +50,16 @@ export const NavBar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+          <a className="navbar-brand-center" href="/">
+            <img src={whiteLogoImage} alt="WhiteLogo" />
+          </a>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="/como-funciona">Cómo funciona</a>
+                <a className="nav-link" href="/#">Cómo funciona</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/entrar">Entrar</a>
+                <a className="nav-link" href="/#">Entrar</a>
               </li>
             </ul>
           </div>

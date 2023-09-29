@@ -4,6 +4,7 @@ import { CaptionForm } from '../Text/CaptionForm';
 import { FormTitleH2 } from '../Text/FormTitleH2';
 import { Button } from '../Button/Button';
 import { useAuth } from '../../contexts/AuthContext';
+import imageDone from '../../assets/images/done.svg';
 
 export const SignUpFormStep4 = ({ onPrevStep, onNextStep }) => {
     const { formData, setFormData } = useAuth();
@@ -22,13 +23,17 @@ export const SignUpFormStep4 = ({ onPrevStep, onNextStep }) => {
     };
 
     return (
-        <div>
+        <div className='text-center'>
+            <div className="mb-3">
+                <img src={imageDone} alt='image completed' />
+            </div>
+
             <div className="mb-3">
                 <FormTitleH3>Haz creado una cuenta</FormTitleH3>
             </div>
 
             <div className="mb-4">
-                <CaptionForm>Tu número de cliente es: 000001</CaptionForm>
+                <CaptionForm>Tu número de cliente es: {formData.idClient}</CaptionForm>
             </div>
 
             <div className="mb-4">
@@ -44,17 +49,14 @@ export const SignUpFormStep4 = ({ onPrevStep, onNextStep }) => {
             <Button
                 typeButton={"secondary"}
                 onClick={handlePrevStep}
-            // disabled={!form.isValidStep && !form.emailValid}
             >
                 Anterior
             </Button>
 
             <Button
                 typeButton={"primary"}
-            // onClick={handleNextStep}
-            // disabled={!form.isValidStep && !form.emailValid}
             >
-                Finalizar
+                Iniciar sesión
             </Button>
         </div>
     );

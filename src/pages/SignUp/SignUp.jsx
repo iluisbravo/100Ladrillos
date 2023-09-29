@@ -16,10 +16,10 @@ export const SignUp = () => {
     <>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-5 col-sm-12 p-0">
+          <div className="col-md-5 col-sm-12 p-0 image-div">
             <DivImage src={imagenAngel} />
           </div>
-          <div className="col-md-7 col-sm-12 p-0">
+          <div className="col-md-7 col-sm-12 p-0 overlay-div">
             <SignUpForm />
           </div>
         </div>

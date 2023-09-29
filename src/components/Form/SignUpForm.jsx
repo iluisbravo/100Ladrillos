@@ -4,6 +4,7 @@ import { SignUpFormStep2 } from './SignUpFormStep2';
 import { SignUpFormStep3 } from './SignUpFormStep3';
 import { SignUpFormStep4 } from './SignUpFormStep4';
 import styled from 'styled-components';
+import { StepIndicator } from '../StepIndicator/StepIndicator';
 
 const DivForm = styled.div`
   display: flex;
@@ -28,27 +29,33 @@ export const SignUpForm = () => {
     };
 
     return (
-        <DivForm>
-            <ContainerForm>
-                {formStep === 1 &&
-                    <SignUpFormStep1
-                        onNextStep={handleNextStep}
-                    />}
-                {formStep === 2 &&
-                    <SignUpFormStep2
-                        onPrevStep={handlePrevStep}
-                        onNextStep={handleNextStep}
-                    />}
-                {formStep === 3 &&
-                    <SignUpFormStep3
-                        onPrevStep={handlePrevStep}
-                        onNextStep={handleNextStep}
-                    />}
-                {formStep === 4 &&
-                    <SignUpFormStep4
-                        onPrevStep={handlePrevStep}
-                        onNextStep={handleNextStep} />}
-            </ContainerForm>
-        </DivForm>
+        <>
+            <DivForm>
+                <ContainerForm>
+                    {formStep === 1 &&
+                        <SignUpFormStep1
+                            onNextStep={handleNextStep}
+                        />}
+                    {formStep === 2 &&
+                        <SignUpFormStep2
+                            onPrevStep={handlePrevStep}
+                            onNextStep={handleNextStep}
+                        />}
+                    {formStep === 3 &&
+                        <SignUpFormStep3
+                            onPrevStep={handlePrevStep}
+                            onNextStep={handleNextStep}
+                        />}
+                    {formStep === 4 &&
+                        <SignUpFormStep4
+                            onPrevStep={handlePrevStep}
+                            onNextStep={handleNextStep} />}
+                    <div className='mt-4'>
+                        <StepIndicator currentStep={formStep} />
+                    </div>
+
+                </ContainerForm>
+            </DivForm>
+        </>
     );
 }

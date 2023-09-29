@@ -8,6 +8,9 @@ import { CaptionForm } from '../Text/CaptionForm';
 import { Button } from '../Button/Button';
 import phoneImg from '../../assets/images/phone.svg'
 import { useAuth } from '../../contexts/AuthContext';
+import { verifyPhoneNumber } from '../../services/SignUpServices';
+import errorMessages from '../../utils/errorMessages';
+import { LinkForm } from '../Text/LinkForm';
 
 const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
@@ -65,8 +68,8 @@ const ContainerCode = styled.div`
 `
 
 export const ModalPhoneNumberVerify = ({ isOpen, openModal, closeModal }) => {
-    // const [isOpen, setIsOpen] = useState(false);
     const { formData, setFormData } = useAuth();
+    const [error, setError] = useState();
 
     const [digits, setDigits] = useState({
         digit1: '',
@@ -86,12 +89,10 @@ export const ModalPhoneNumberVerify = ({ isOpen, openModal, closeModal }) => {
     };
 
     const onlyNumbers = (e) => {
-        // Permitir la tecla de retroceso (Backspace)
-        if (e.keyCode === 8) {
+        if (e.keyCode === 8 || e.keyCode === 9) {
             return;
         }
 
-        // Prevenir cualquier otro carácter que no sea número
         if (e.key && !/^\d$/.test(e.key)) {
             e.preventDefault();
         }
@@ -107,6 +108,28 @@ export const ModalPhoneNumberVerify = ({ isOpen, openModal, closeModal }) => {
 
         closeModal();
     }
+
+    const handlePhoneVerify = () => {
+        verifyPhoneNumber(`${digits.digit1}${digits.digit2}${digits.digit3}${digits.digit4}`, formData.token)
+            .then((response) => {
+                console.log(response, "Verifing phone");
+                if (response.status === 200) {
+                    setFormData((formData) => {
+                        return {
+                            ...formData,
+                            phoneVerified: true
+                        }
+                    });
+                    setError(undefined);
+                    closeModal();
+                }
+
+            })
+            .catch((error) => {
+                console.log(error.response.request.status);
+                setError(error.response.request.status);
+            });
+    };
 
 
     return (
@@ -165,6 +188,9 @@ export const ModalPhoneNumberVerify = ({ isOpen, openModal, closeModal }) => {
                                         onKeyDown={onlyNumbers}
                                         maxLength={1}></input>
                                 </ContainerCode>
+                                <div className="invalid-feedback" style={{ display: 'block' }}>
+                                    {error ? errorMessages[error] : undefined}
+                                </div>
                             </div>
 
                             <div className='mb-4'>
@@ -172,7 +198,7 @@ export const ModalPhoneNumberVerify = ({ isOpen, openModal, closeModal }) => {
                             </div>
 
                             <div className='mb-4'>
-                                <CaptionForm>Renvíar SMS</CaptionForm>
+                                <LinkForm>Renvíar SMS</LinkForm>
                             </div>
 
                             <div className='mb-1'>
@@ -182,7 +208,7 @@ export const ModalPhoneNumberVerify = ({ isOpen, openModal, closeModal }) => {
                                 > Cancelar</Button>
                                 <Button
                                     typeButton={'primary'}
-                                    onClick={validatePhone}
+                                    onClick={handlePhoneVerify}
                                     disabled={
                                         (digits.digit1.trim() == "" ||
                                             digits.digit2.trim() == "" ||
@@ -193,6 +219,7 @@ export const ModalPhoneNumberVerify = ({ isOpen, openModal, closeModal }) => {
                                     }
                                 >Validar código</Button>
                             </div>
+                            {error || undefined}
 
 
 

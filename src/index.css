@@ -4,3 +4,64 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0px;
 }
+
+.navbar-brand-center {
+  display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .image-div {
+    display: none;
+  }
+
+  .navbar {
+    background-image: url('./assets/images/ImagenAngel.webp') !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center -84px !important;
+  }
+
+  .navbar-nav{
+    background-color: white;
+  }
+
+  .nav-item{
+    margin-left: 0 !important;
+  }
+
+  .navbar-brand {
+    display: none;
+  }
+
+  .navbar-brand-center {
+    position: relative;
+    display: block;
+    align-self: center;
+    left: -48% !important;
+  }
+
+  .navbar-toggler {
+    border: none;
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
+
+  .navbar-toggler:focus {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: none;
+  }
+
+  .overlay-div {
+    width: 100vh;
+    height: 100vh;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

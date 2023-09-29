@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LabelForm } from '../Text/LabelForm';
 import { FormTitleH3 } from '../Text/FormTitleH3';
 import { Button } from '../Button/Button';
 import { useAuth } from '../../contexts/AuthContext';
+import { registerUserName } from '../../services/SignUpServices';
+import errorMessages from '../../utils/errorMessages';
 
 export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
     const { formData, setFormData } = useAuth();
+    const [error, setError] = useState();
 
     useEffect(() => {
         validateStep();
@@ -32,11 +35,49 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
     };
 
     const handleNextStep = () => {
-        const isValid = true;
+        onNextStep();
+    };
 
-        if (isValid) {
-            onNextStep();
+    const onlyLetters = (event) => {
+
+        if (event.keyCode === 8 || event.keyCode === 9 || event.keyCode === 32) {
+            return;
         }
+
+        const inputValue = event.key;
+        const regex = /^[a-zA-Z]+$/;
+
+        if (!regex.test(inputValue)) {
+            event.preventDefault();
+        }
+    };
+
+
+    const handleRegisterNames = () => {
+        registerUserName(
+            formData.primerNombre,
+            formData.segundoNombre,
+            formData.primerApellido,
+            formData.segundoApellido,
+            formData.token)
+            .then((response) => {
+                console.log(response, "Registering names");
+                if (response.status === 200) {
+                    setFormData((formData) => {
+                        return {
+                            ...formData,
+                            idClient: response.data.clientNumber
+                        }
+                    });
+                    setError(undefined);
+                    handleNextStep();
+                }
+
+            })
+            .catch((error) => {
+                console.log(error.response.request.status);
+                setError(error.response.request.status);
+            });
     };
 
     return (
@@ -59,8 +100,11 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
                             [event.target.name]: event.target.value
                         }
                     })}
-
+                    onKeyDown={onlyLetters}
                 />
+                <div className="invalid-feedback" style={{ display: 'block' }}>
+                    {error ? errorMessages[error] : undefined}
+                </div>
             </div>
             <div className="mb-4">
                 <LabelForm className="form-label">Segundo nombre (Opcional)</LabelForm>
@@ -77,7 +121,11 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
                             [event.target.name]: event.target.value
                         }
                     })}
+                    onKeyDown={onlyLetters}
                 />
+                <div className="invalid-feedback" style={{ display: 'block' }}>
+                    {error ? errorMessages[error] : undefined}
+                </div>
             </div>
             <div className="mb-4">
                 <LabelForm className="form-label">Primer apellido</LabelForm>
@@ -94,7 +142,11 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
                             [event.target.name]: event.target.value
                         }
                     })}
+                    onKeyDown={onlyLetters}
                 />
+                <div className="invalid-feedback" style={{ display: 'block' }}>
+                    {error ? errorMessages[error] : undefined}
+                </div>
             </div>
             <div className="mb-4">
                 <LabelForm className="form-label">Segundo apellido (Opcional)</LabelForm>
@@ -111,20 +163,23 @@ export const SignUpFormStep3 = ({ onPrevStep, onNextStep }) => {
                             [event.target.name]: event.target.value
                         }
                     })}
+                    onKeyDown={onlyLetters}
                 />
+                <div className="invalid-feedback" style={{ display: 'block' }}>
+                    {error ? errorMessages[error] : undefined}
+                </div>
             </div>
 
             <Button
                 typeButton={"secondary"}
                 onClick={handlePrevStep}
-            // disabled={!form.isValidStep && !form.emailValid}
             >
                 Anterior
             </Button>
 
             <Button
                 typeButton={"primary"}
-                onClick={handleNextStep}
+                onClick={handleRegisterNames}
                 disabled={!formData.isValidStep3}
             >
                 Siguiente

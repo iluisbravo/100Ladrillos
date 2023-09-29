@@ -10,8 +10,7 @@ export function useTheme() {
 export function ThemeProvider({ children }) {
     const theme = {
         colors,
-        fontsSize,
-        // Agrega otras variables de estilo aquí si es necesario
+        fontsSize
     };
 
     return (
