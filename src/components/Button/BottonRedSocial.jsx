@@ -18,11 +18,9 @@ img{
 
 export const BottonRedSocial = ({ logoRedSocial }) => {
     const theme = useTheme();
-
-
     return (
         <Button theme={theme}>
-            <img src={logoRedSocial} />
+            <img src={logoRedSocial} alt='Red Social' />
         </Button>
     )
 }

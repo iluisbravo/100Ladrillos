@@ -44,11 +44,13 @@ export const Button = ({ onClick, typeButton, type, disabled, children }) => {
 
     return (
         <StyledButton
-            typeButton={typeButton}
+            data-testid="custom-button"
+            typeButton={typeButton || "primary"}
             onClick={onClick}
             theme={theme}
             type={type || "button"}
             disabled={disabled}
+            aria-label={children}
         >
             {children}
         </StyledButton>
